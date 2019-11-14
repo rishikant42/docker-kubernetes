@@ -8,7 +8,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> & Hi
+          Learning CI/CD with docker, travis-ci, aws-elasticbeanstalk
         </p>
         <a
           className="App-link"
