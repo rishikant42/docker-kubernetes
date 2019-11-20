@@ -1,0 +1,17 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: cron-job
+spec: #CRONJOB
+  schedule: "* * * * *"
+  jobTemplate:
+    spec: #JOB
+      template:
+        spec: #POD
+          containers:
+            - name: long-job
+              image: python
+              command: ["python"]
+              args: ["-c", "import time; print('starting'); time.sleep(30); print('done')"]
+          restartPolicy: Never
+      backoffLimit: 2
