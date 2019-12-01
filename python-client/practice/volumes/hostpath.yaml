@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hostpath-pod
+spec:
+  containers:
+    - name: hostpath-container
+      image: redis
+      volumeMounts:
+        - name: test-vol
+          mountPath: /test-mnt
+  volumes:
+    - name: test-vol
+      hostPath:
+        path: /test-vol
