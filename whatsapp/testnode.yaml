@@ -1,0 +1,113 @@
+# Source: wa-components/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: wa12154406794
+  labels:
+    app: wa-components
+    chart: wa-components-0.0.2
+    release: wa12154406794
+    heritage: Tiller
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 443
+      protocol: TCP
+      name: wa12154406794
+  selector:
+    app: wa-components
+    release: wa12154406794
+---
+# Source: wa-components/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wa12154406794
+  labels:
+    app: wa-components
+    chart: wa-components-0.0.2
+    release: wa12154406794
+    heritage: Tiller
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wa-components
+      release: wa12154406794
+  template:
+    metadata:
+      labels:
+        app: wa-components
+        release: wa12154406794
+    spec:
+      containers:
+        - name: "wa12154406794-web"
+          image: "docker.whatsapp.biz/web:v2.25.1"
+          command:
+            - /opt/whatsapp/bin/wait_on_mysql.sh
+            - /opt/whatsapp/bin/launch_within_docker.sh
+          ports:
+            - containerPort: 443
+          env:
+            - name: WA_DB_ENGINE
+              value: MYSQL
+            - name: WA_DB_HOSTNAME
+              value: 10.107.176.25
+            - name: WA_DB_PORT
+              value: "3306"
+            - name: WA_DB_USERNAME
+              value: root
+            - name: WA_DB_PASSWORD
+              value: J4PNxyAMzzMBmknd
+            - name: WA_DB_NAME_PREFIX
+              value: wa12154406794
+          volumeMounts:
+            - name: whatsapp-data
+              mountPath: /usr/local/waent/data
+            - name: whatsapp-media
+              mountPath: /usr/local/wamedia
+          resources:
+            limits:
+              cpu: 350m
+              memory: 300Mi
+            requests:
+              cpu: 300m
+              memory: 300Mi
+        - name: "wa12154406794-core"
+          image: "docker.whatsapp.biz/coreapp:v2.25.1"
+          command:
+            - /opt/whatsapp/bin/wait_on_mysql.sh
+            - /opt/whatsapp/bin/launch_within_docker.sh
+          env:
+            - name: WA_DB_ENGINE
+              value: MYSQL
+            - name: WA_DB_HOSTNAME
+              value: 10.107.176.25
+            - name: WA_DB_PORT
+              value: "3306"
+            - name: WA_DB_USERNAME
+              value: root
+            - name: WA_DB_PASSWORD
+              value: J4PNxyAMzzMBmknd
+            - name: WA_DB_NAME_PREFIX
+              value: wa12154406794
+          volumeMounts:
+            - name: whatsapp-data
+              mountPath: /usr/local/waent/data
+            - name: whatsapp-media
+              mountPath: /usr/local/wamedia
+          resources:
+            limits:
+              cpu: 250m
+              memory: 300Mi
+            requests:
+              cpu: 200m
+              memory: 300Mi
+      volumes:
+        - name: whatsapp-data
+          persistentVolumeClaim:
+            claimName: wa12154406794pvcdata
+        - name: whatsapp-media
+          persistentVolumeClaim:
+            claimName: wa12154406794pvcmedia

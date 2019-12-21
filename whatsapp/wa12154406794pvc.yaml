@@ -1,0 +1,25 @@
+# Source: wa-pvc/templates/pvc-data.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: wa12154406794pvcdata
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 200Gi
+  storageClassName: repd
+---
+# Source: wa-pvc/templates/pvc-media.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: wa12154406794pvcmedia
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 200Gi
+  storageClassName: repd
